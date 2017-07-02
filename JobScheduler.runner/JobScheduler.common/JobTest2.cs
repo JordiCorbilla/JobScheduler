@@ -1,7 +1,4 @@
-﻿//  Copyright (c) 2017, Jordi Corbilla
-//  All rights reserved.
-//
-//  Redistribution and use in source and binary forms, with or without
+﻿//  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
 //
 //  - Redistributions of source code must retain the above copyright notice,
@@ -30,9 +27,9 @@ using System.Threading.Tasks;
 
 namespace JobScheduler.common
 {
-    public class JobTest : Job
+    public class JobTest2: Job
     {
-        public JobTest(int id, DateTime time) : base()
+        public JobTest2(int id, DateTime time): base()
         {
             Id = id;
             Time = time;
@@ -40,7 +37,7 @@ namespace JobScheduler.common
 
         public override void Run()
         {
-            Task.Factory.StartNew(() => { Console.WriteLine($"{DateTime.Now.ToString("hh:mm:ss")} It runs JobTest!"); });
+            Task.Factory.StartNew(() => { Console.WriteLine($"{DateTime.Now.ToString("hh:mm:ss")} It runs JobTest2!"); });
             Active = false;
         }
     }

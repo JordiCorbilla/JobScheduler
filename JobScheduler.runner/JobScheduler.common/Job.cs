@@ -34,6 +34,20 @@ namespace JobScheduler.common
         public int Id { get; set; }
         public DateTime Time { get; set; }
         public bool Active { get; set; }
+
+        public Job()
+        {
+            Active = true;
+        }
         public abstract void Run();
+
+        public void Update(Job newJob)
+        {
+            if (this.Time != newJob.Time)
+            {
+                this.Time = newJob.Time;
+                this.Active = true;
+            }
+        }
     }
 }

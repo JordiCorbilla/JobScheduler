@@ -26,22 +26,41 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace JobScheduler.common
 {
-    public class JobTest : Job
+    public class JobManager
     {
-        public JobTest(int id, DateTime time) : base()
+        private Dictionary<int, Job> Jobs { get; set; }
+
+        public JobManager()
         {
-            Id = id;
-            Time = time;
+            Jobs = new Dictionary<int, Job>();
         }
 
-        public override void Run()
+        public void Load(Job job)
         {
-            Task.Factory.StartNew(() => { Console.WriteLine($"{DateTime.Now.ToString("hh:mm:ss")} It runs JobTest!"); });
-            Active = false;
+            Job oldJob;
+            if (Jobs.TryGetValue(job.Id, out oldJob))
+            {
+                oldJob.Update(job);
+            }
+            else
+            {
+                Jobs.Add(job.Id, job);
+            }
+        }
+
+        public void Run()
+        {
+            DateTime t = DateTime.Now;
+
+            foreach (KeyValuePair<int, Job> job in Jobs)
+            {
+                if (t > job.Value.Time)
+                    job.Value.Run();
+            }
         }
     }
 }
