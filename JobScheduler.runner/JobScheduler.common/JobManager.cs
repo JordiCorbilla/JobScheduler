@@ -50,6 +50,9 @@ namespace JobScheduler.common
             {
                 Jobs.Add(job.Id, job);
             }
+
+            //Delete old Jobs
+            
         }
 
         public void Run()
