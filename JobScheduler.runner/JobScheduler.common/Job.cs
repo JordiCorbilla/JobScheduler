@@ -35,6 +35,8 @@ namespace JobScheduler.common
         public DateTime Time { get; set; }
         public bool Active { get; set; }
 
+        public delegate void JobDelegate();
+
         public Job()
         {
             Active = true;
