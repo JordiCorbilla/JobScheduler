@@ -69,7 +69,7 @@ namespace JobScheduler.runner
                     Monitor.Exit(Mylock);
                 }
             }
-            Console.WriteLine($"{DateTime.Now.ToString("hh: mm:ss")} Running!");
+            Console.WriteLine($"{DateTime.Now.ToString("hh:mm:ss")} Running!");
         }
 
         //Separate method to load the list of jobs.

@@ -58,7 +58,7 @@ namespace JobScheduler.common
 
             foreach (KeyValuePair<int, Job> job in Jobs)
             {
-                if (t > job.Value.Time)
+                if (t > job.Value.Time && job.Value.Active)
                     job.Value.Run();
             }
         }
