@@ -50,7 +50,7 @@ namespace JobScheduler.common
         {
             if (Time != newJob.Time)
             {
-                Console.WriteLine($"Job has bee updated Id {Id} Old Time: {Time.ToString("hh:mm:ss")} New Time: {newJob.Time.ToString("hh:mm:ss")}");
+                Console.WriteLine($"Job has been updated Id {Id} Old Time: {Time.ToString("hh:mm:ss")} New Time: {newJob.Time.ToString("hh:mm:ss")}");
                 Time = newJob.Time;
                 Active = true;
             }
