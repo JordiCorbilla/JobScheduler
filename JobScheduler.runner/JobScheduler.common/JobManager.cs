@@ -1,4 +1,4 @@
-﻿//  Copyright (c) 2017, Jordi Corbilla
+//  Copyright (c) 2017, Jordi Corbilla
 //  All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,14 @@ namespace JobScheduler.common
             Jobs = new Dictionary<int, Job>();
         }
 
+        public void UnMark()
+        {
+            foreach (KeyValuePair<int, Job> job in Jobs)
+            {
+                job.Value.Marked = false;
+            }
+        }
+
         public void Load(Job job)
         {
             Job oldJob;
@@ -50,14 +58,28 @@ namespace JobScheduler.common
             {
                 Jobs.Add(job.Id, job);
             }
+        }
 
-            //Delete old Jobs
-            
+        public void DeleteUnMarked()
+        {
+            List<int> toBeRemoved = new List<int>();
+            foreach (KeyValuePair<int, Job> job in Jobs)
+            {
+                if (!job.Value.Marked)
+                {
+                    toBeRemoved.Add(job.Key);
+                }
+            }
+
+            foreach (int key in toBeRemoved)
+            {
+                Jobs.Remove(key);
+            }
         }
 
         public void Run()
         {
-            DateTime t = DateTime.Now;
+            DateTime t = DateTime.UtcNow;
 
             foreach (KeyValuePair<int, Job> job in Jobs)
             {
