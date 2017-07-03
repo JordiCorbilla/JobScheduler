@@ -26,66 +26,35 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Collections.Generic;
 
 namespace JobScheduler.common
 {
-    public class JobManager
+    public abstract class Job
     {
-        private Dictionary<int, Job> Jobs { get; set; }
+        public int Id { get; set; }
+        public DateTime Time { get; set; }
+        public bool Active { get; set; }
 
-        public JobManager()
+        public delegate void JobDelegate();
+
+        public bool Marked { get; set; }
+
+        protected Job()
         {
-            Jobs = new Dictionary<int, Job>();
+            Active = true;
+            Marked = true;
         }
+        public abstract void Run();
 
-        public void UnMark()
+        public void Update(Job newJob)
         {
-            foreach (KeyValuePair<int, Job> job in Jobs)
+            if (Time != newJob.Time)
             {
-                job.Value.Marked = false;
+                Console.WriteLine($"Job has bee updated Id {Id} Old Time: {Time.ToString("hh:mm:ss")} New Time: {newJob.Time.ToString("hh:mm:ss")}");
+                Time = newJob.Time;
+                Active = true;
             }
-        }
-
-        public void Load(Job job)
-        {
-            Job oldJob;
-            if (Jobs.TryGetValue(job.Id, out oldJob))
-            {
-                oldJob.Update(job);
-            }
-            else
-            {
-                Jobs.Add(job.Id, job);
-            }
-        }
-
-        public void DeleteUnMarked()
-        {
-            List<int> toBeRemoved = new List<int>();
-            foreach (KeyValuePair<int, Job> job in Jobs)
-            {
-                if (!job.Value.Marked)
-                {
-                    toBeRemoved.Add(job.Key);
-                }
-            }
-
-            foreach (int key in toBeRemoved)
-            {
-                Jobs.Remove(key);
-            }
-        }
-
-        public void Run()
-        {
-            DateTime t = DateTime.UtcNow;
-
-            foreach (KeyValuePair<int, Job> job in Jobs)
-            {
-                if (t > job.Value.Time && job.Value.Active)
-                    job.Value.Run();
-            }
+            Marked = true;
         }
     }
 }
