@@ -42,6 +42,7 @@ namespace JobScheduler.common
         protected Job()
         {
             Active = true;
+            Marked = true;
         }
         public abstract void Run();
 
@@ -52,6 +53,7 @@ namespace JobScheduler.common
                 Time = newJob.Time;
                 Active = true;
             }
+            Marked = true;
         }
     }
 }

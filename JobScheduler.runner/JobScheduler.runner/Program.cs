@@ -40,7 +40,7 @@ namespace JobScheduler.runner
         private static DateTime today { get; set; }
         static void Main(string[] args)
         {
-            today = DateTime.Now;
+            today = DateTime.UtcNow;
             jobManager = new JobManager();
 
             Timer timer = new Timer
@@ -61,8 +61,8 @@ namespace JobScheduler.runner
             {
                 try
                 {
-                    LoadJobs();
                     jobManager.Run();
+                    LoadJobs();
                 }
                 finally
                 {
@@ -76,10 +76,12 @@ namespace JobScheduler.runner
         //This could come from a DB for example
         private static void LoadJobs()
         {
+            jobManager.UnMark();
             JobTest test1 = new JobTest(1, today.AddMinutes(2));
             JobTest2 test2 = new JobTest2(2, today.AddMinutes(3));
             jobManager.Load(test1);
             jobManager.Load(test2);
+            jobManager.DeleteUnMarked();
         }
     }
 }
