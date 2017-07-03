@@ -26,35 +26,68 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
+using System.Collections.Generic;
 
 namespace JobScheduler.common
 {
-    public abstract class Job
+    public class JobManager
     {
-        public int Id { get; set; }
-        public DateTime Time { get; set; }
-        public bool Active { get; set; }
+        private Dictionary<int, Job> Jobs { get; set; }
 
-        public delegate void JobDelegate();
-
-        public bool Marked { get; set; }
-
-        protected Job()
+        public JobManager()
         {
-            Active = true;
-            Marked = true;
+            Jobs = new Dictionary<int, Job>();
         }
-        public abstract void Run();
 
-        public void Update(Job newJob)
+        public void UnMark()
         {
-            if (Time != newJob.Time)
+            foreach (KeyValuePair<int, Job> job in Jobs)
             {
-                Console.WriteLine($"Job has been updated Id {Id} Old Time: {Time.ToString("hh:mm:ss")} New Time: {newJob.Time.ToString("hh:mm:ss")}");
-                Time = newJob.Time;
-                Active = true;
+                job.Value.Marked = false;
             }
-            Marked = true;
+        }
+
+        public void Load(Job job)
+        {
+            Job oldJob;
+            if (Jobs.TryGetValue(job.Id, out oldJob))
+            {
+                oldJob.Update(job);
+            }
+            else
+            {
+                Jobs.Add(job.Id, job);
+                Console.WriteLine($"New Job added with Id {job.Id} scheduled at: {job.Time.ToString("hh:mm:ss")}");
+            }
+        }
+
+        public void DeleteUnMarked()
+        {
+            List<int> toBeRemoved = new List<int>();
+            foreach (KeyValuePair<int, Job> job in Jobs)
+            {
+                if (!job.Value.Marked)
+                {
+                    toBeRemoved.Add(job.Key);
+                }
+            }
+
+            foreach (int key in toBeRemoved)
+            {
+                Console.WriteLine($"Job Id {key} has been removed!");
+                Jobs.Remove(key);
+            }
+        }
+
+        public void Run()
+        {
+            DateTime t = DateTime.UtcNow;
+
+            foreach (KeyValuePair<int, Job> job in Jobs)
+            {
+                if (t > job.Value.Time && job.Value.Active)
+                    job.Value.Run();
+            }
         }
     }
 }
