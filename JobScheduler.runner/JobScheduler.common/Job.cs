@@ -1,4 +1,4 @@
-﻿//  Copyright (c) 2017, Jordi Corbilla
+//  Copyright (c) 2017, Jordi Corbilla
 //  All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,9 @@ namespace JobScheduler.common
 
         public delegate void JobDelegate();
 
-        public Job()
+        public bool Marked { get; set; }
+
+        protected Job()
         {
             Active = true;
         }
@@ -45,10 +47,10 @@ namespace JobScheduler.common
 
         public void Update(Job newJob)
         {
-            if (this.Time != newJob.Time)
+            if (Time != newJob.Time)
             {
-                this.Time = newJob.Time;
-                this.Active = true;
+                Time = newJob.Time;
+                Active = true;
             }
         }
     }
