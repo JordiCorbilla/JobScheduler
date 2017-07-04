@@ -1,4 +1,7 @@
-﻿//  Redistribution and use in source and binary forms, with or without
+//  Copyright (c) 2017, Jordi Corbilla
+//  All rights reserved.
+//
+//  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
 //
 //  - Redistributions of source code must retain the above copyright notice,
@@ -29,15 +32,21 @@ namespace JobScheduler.common
 {
     public class JobTest2: Job
     {
-        public JobTest2(int id, DateTime time): base()
+        public JobTest2(int id, DateTime time): base(Dump)
         {
             Id = id;
             Time = time;
         }
 
+        private static void Dump(string message)
+        {
+            //Add anything here
+            Console.WriteLine(message);
+        }
+
         public override void Run()
         {
-            Task.Factory.StartNew(() => { Console.WriteLine($"{DateTime.Now.ToString("hh:mm:ss")} It runs JobTest2!"); });
+            Task.Factory.StartNew(() => { Console.WriteLine($"[{DateTime.Now:hh:mm:ss tt} UTC] It runs JobTest2!"); });
             Active = false;
         }
     }
