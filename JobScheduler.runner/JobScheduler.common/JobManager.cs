@@ -32,8 +32,6 @@ namespace JobScheduler.common
 {
     public class JobManager
     {
-        public delegate void LogDelegate(string message);
-
         public LogDelegate Log { get; set; }
 
         private Dictionary<int, Job> Jobs { get; }
@@ -62,7 +60,7 @@ namespace JobScheduler.common
             else
             {
                 Jobs.Add(job.Id, job);
-                Log($"New Job added with Id [{job.Id}] scheduled at: [{job.Time:hh:mm:ss}] utc");
+                Log($"New Job added with Id [{job.Id}] scheduled at: [{job.Time:hh:mm:ss tt} UTC]");
             }
         }
 
@@ -79,7 +77,7 @@ namespace JobScheduler.common
 
             foreach (int key in toBeRemoved)
             {
-                Log($"Job with Id [{key}] has been removed!");
+                Log($"Job with Id [{key}] has been removed from the Scheduler");
                 Jobs.Remove(key);
             }
         }
@@ -91,7 +89,10 @@ namespace JobScheduler.common
             foreach (KeyValuePair<int, Job> job in Jobs)
             {
                 if (t > job.Value.Time && job.Value.Active)
+                {
+                    Log($"Running Job with Id [{job.Key}]");
                     job.Value.Run();
+                }
             }
         }
     }
