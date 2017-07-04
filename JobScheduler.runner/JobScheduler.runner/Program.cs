@@ -38,7 +38,7 @@ namespace JobScheduler.runner
         private static JobManager jobManager { get; set; }
         private static readonly object Mylock = new object();
         private static DateTime today { get; set; }
-        static void Main(string[] args)
+        static void Main()
         {
             today = DateTime.UtcNow;
             jobManager = new JobManager();
@@ -50,7 +50,7 @@ namespace JobScheduler.runner
             };
 
             timer.Elapsed += OnTimedEvent;
-            Console.WriteLine("Starting Job Scheduler by Jordi Corbilla");
+            Dump("Starting Job Scheduler by [Jordi Corbilla]");
             Console.Read();
         }
 
@@ -69,7 +69,7 @@ namespace JobScheduler.runner
                     Monitor.Exit(Mylock);
                 }
             }
-            Console.WriteLine($"{DateTime.Now.ToString("hh:mm:ss")} Running!");
+            Dump($"[{DateTime.UtcNow:hh:mm:ss tt} UTC] Running.");
         }
 
         //Separate method to load the list of jobs.
@@ -83,5 +83,11 @@ namespace JobScheduler.runner
             jobManager.Load(test2);
             jobManager.DeleteUnMarked();
         }
+        
+        private static void Dump(string message)
+        {
+            //Add anything here
+            Console.WriteLine(message);
+        }        
     }
 }
