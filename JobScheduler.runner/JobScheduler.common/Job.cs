@@ -35,8 +35,6 @@ namespace JobScheduler.common
         public DateTime Time { get; set; }
         public bool Active { get; set; }
 
-        public delegate void LogDelegate(string message);
-
         public LogDelegate Log { get; set; }
 
         public bool Marked { get; set; }
@@ -53,7 +51,7 @@ namespace JobScheduler.common
         {
             if (Time != newJob.Time)
             {
-                Log($"Job has been updated with Id [{Id}] Old Time: [{Time:hh:mm:ss}] utc, New Time: [{newJob.Time:hh:mm:ss}] utc");
+                Log($"Job has been updated with Id [{Id}], Old Time: [{Time:hh:mm:ss tt} UTC], New Time: [{newJob.Time:hh:mm:ss tt} UTC]");
                 Time = newJob.Time;
                 Active = true;
             }
