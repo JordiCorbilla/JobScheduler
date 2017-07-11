@@ -41,7 +41,7 @@ namespace JobScheduler.runner
         static void Main()
         {
             today = DateTime.UtcNow;
-            jobManager = new JobManager();
+            jobManager = new JobManager(Dump);
 
             Timer timer = new Timer
             {
@@ -77,8 +77,8 @@ namespace JobScheduler.runner
         private static void LoadJobs()
         {
             jobManager.UnMark();
-            JobTest test1 = new JobTest(1, today.AddMinutes(2));
-            JobTest2 test2 = new JobTest2(2, today.AddMinutes(3));
+            JobTest test1 = new JobTest(1, today.AddSeconds(35));
+            JobTest2 test2 = new JobTest2(2, today.AddSeconds(42));
             jobManager.Load(test1);
             jobManager.Load(test2);
             jobManager.DeleteUnMarked();
