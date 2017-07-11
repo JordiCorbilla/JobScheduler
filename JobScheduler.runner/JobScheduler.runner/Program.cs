@@ -33,7 +33,7 @@ using Timer = System.Timers.Timer;
 
 namespace JobScheduler.runner
 {
-    class Program
+    static class Program
     {
         private static JobManager jobManager { get; set; }
         private static readonly object Mylock = new object();
