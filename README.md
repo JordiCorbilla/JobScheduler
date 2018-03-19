@@ -1,4 +1,4 @@
-# JobScheduler
+# Job Scheduler
 Simple Job Scheduler for .NET.
 
 The idea behind this simple Job Scheduler is to provide a way of running specific jobs at certain times during the day. The Scheduler runs every 10s and loads the list of jobs to run at a specific time of the day. Once the time is met, the job is executed using a task.
