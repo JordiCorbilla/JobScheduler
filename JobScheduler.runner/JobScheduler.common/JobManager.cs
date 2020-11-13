@@ -52,8 +52,7 @@ namespace JobScheduler.common
 
         public void Load(Job job)
         {
-            Job oldJob;
-            if (Jobs.TryGetValue(job.Id, out oldJob))
+            if (Jobs.TryGetValue(job.Id, out var oldJob))
             {
                 oldJob.Update(job);
             }

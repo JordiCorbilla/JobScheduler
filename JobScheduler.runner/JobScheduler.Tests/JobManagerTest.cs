@@ -1,13 +1,13 @@
 ﻿using JobScheduler.common;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using NUnit.Framework;
 
 namespace JobScheduler.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class JobManagerTest
     {
-        [TestMethod]
+        [Test]
         public void TestLoad()
         {
             JobManager jobManager = new JobManager(Dump);

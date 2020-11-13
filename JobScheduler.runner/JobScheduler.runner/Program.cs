@@ -35,13 +35,13 @@ namespace JobScheduler.runner
 {
     static class Program
     {
-        private static JobManager jobManager { get; set; }
-        private static readonly object Mylock = new object();
-        private static DateTime today { get; set; }
+        private static JobManager JobManager { get; set; }
+        private static readonly object MyLock = new object();
+        private static DateTime Today { get; set; }
         static void Main()
         {
-            today = DateTime.UtcNow;
-            jobManager = new JobManager(Dump);
+            Today = DateTime.UtcNow;
+            JobManager = new JobManager(Dump);
 
             Timer timer = new Timer
             {
@@ -66,16 +66,16 @@ namespace JobScheduler.runner
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             //Load all the jobs
-            if (Monitor.TryEnter(Mylock))
+            if (Monitor.TryEnter(MyLock))
             {
                 try
                 {
-                    jobManager.Run();
+                    JobManager.Run();
                     LoadJobs();
                 }
                 finally
                 {
-                    Monitor.Exit(Mylock);
+                    Monitor.Exit(MyLock);
                 }
             }
             Dump($"[{DateTime.UtcNow:hh:mm:ss tt} UTC] Running.");
@@ -85,12 +85,12 @@ namespace JobScheduler.runner
         //This could come from a DB for example
         private static void LoadJobs()
         {
-            jobManager.UnMark();
-            JobTest test1 = new JobTest(1, today.AddSeconds(35));
-            JobTest2 test2 = new JobTest2(2, today.AddSeconds(42));
-            jobManager.Load(test1);
-            jobManager.Load(test2);
-            jobManager.DeleteUnMarked();
+            JobManager.UnMark();
+            JobTest test1 = new JobTest(1, Today.AddSeconds(35));
+            JobTest2 test2 = new JobTest2(2, Today.AddSeconds(42));
+            JobManager.Load(test1);
+            JobManager.Load(test2);
+            JobManager.DeleteUnMarked();
         }
         
         private static void Dump(string message)
