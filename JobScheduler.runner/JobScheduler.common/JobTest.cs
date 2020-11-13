@@ -26,6 +26,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace JobScheduler.common
@@ -46,7 +47,12 @@ namespace JobScheduler.common
 
         public override void Run()
         {
-            Task.Factory.StartNew(() => { Console.WriteLine($"[{DateTime.Now:hh:mm:ss tt} UTC] It runs JobTest!"); });
+            Task.Factory.StartNew(() =>
+            {
+                Console.WriteLine($"[{DateTime.Now:hh:mm:ss tt} UTC] It runs JobTest!");
+                Thread.Sleep(5000);
+                Console.WriteLine($"[{DateTime.Now:hh:mm:ss tt} UTC] Ending JobTest!");
+            });
             Active = false;
         }
     }

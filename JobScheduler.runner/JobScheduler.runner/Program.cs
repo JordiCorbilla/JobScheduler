@@ -45,7 +45,7 @@ namespace JobScheduler.runner
 
             Timer timer = new Timer
             {
-                Interval = 10000, //Every 10 seconds
+                Interval = 1000, //Every 1 seconds
                 Enabled = true
             };
 
